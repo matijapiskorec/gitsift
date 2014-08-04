@@ -19,3 +19,11 @@ AND PARSE_UTC_USEC(created_at) > PARSE_UTC_USEC('2014-07-01 00:00:00')
 ORDER BY repository_forks DESC
 LIMIT 15000
 ```
+
+For local testing you can run Python's built-in server:
+
+```
+python -m SimpleHTTPServer
+```
+
+Long term plan is to publish this visualization on [GitHub Pages](https://pages.github.com/).
