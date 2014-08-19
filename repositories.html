@@ -171,14 +171,14 @@ aside {
 <p>Some questions to consider: How does time-of-day correlate with <a href="javascript:filter([null, [100, 150], null, null])">arrival delay</a>? Are <a href="javascript:filter([null, null, [1700, 2000], null])">longer</a> or <a href="javascript:filter([null, null, [0, 300], null])">shorter</a> flights more likely to arrive early? What happened on <a href="javascript:filter([null, [80, 150], null, [new Date(2001, 0, 12), new Date(2001, 0, 13)]])">January 12</a>? How do flight patterns differ between <a href="javascript:filter([null, null, null, [new Date(2001, 0, 27), new Date(2001, 0, 29)]])">weekends</a> and <a href="javascript:filter([null, null, null, [new Date(2001, 0, 29), new Date(2001, 1, 3)]])">weekdays</a>, or <a href="javascript:filter([[4, 7], null, null, null])">mornings</a> and <a href="javascript:filter([[21, 24], null, null, null])">nights</a>? <a href="https://github.com/square/crossfilter/tree/gh-pages">Fork this example</a> and try your own data! -->
 
 <p><input id="inputSearch" placeholder="Search...">
-<input id="repurl" type="checkbox" class="fuse-checkbox">
+<!-- <input id="repurl" type="checkbox" class="fuse-checkbox">
 <label for="repurl">Repository url</label></p>
 
 <p><input id="replanguage" type="checkbox" checked="true" class="fuse-checkbox">
 <label for="replanguage">Repository language</label></p>
 
 <p><input id="case" type="checkbox" class="fuse-checkbox">
-<label for="case">Case sensitive</label></p>
+<label for="case">Case sensitive</label></p> -->
 
 
 <p>The results are sorted by score. That is, the ones that match the strongest are first.</p>
@@ -239,7 +239,7 @@ aside {
 <script>
 
 // (It's CSV, but GitHub Pages only gzip's JSON at the moment.)
-d3.csv("results-20140806-225139.csv", function(error, flights) {
+d3.csv("repositories_data_44k_short.csv", function(error, flights) {
 
   // Various formatters.
   var formatNumber = d3.format(",d"),
@@ -358,17 +358,18 @@ d3.csv("results-20140806-225139.csv", function(error, flights) {
     var $inputSearch = $('#inputSearch'),
         $result = $('#results'),
 
-        $rurlCheckbox = $('#repurl'),
+        /*$rurlCheckbox = $('#repurl'),
         $rplCheckbox = $('#replanguage'),
-        $caseCheckbox = $('#case'),
+        $caseCheckbox = $('#case'),*/
 
-        searchURL = false,
-        searchPL = true,
+        searchURL =true,
+        //searchPL = true,
         isCaseSensitive = false,
 
         fuse;
 
-    function search() {
+    function search2(e) {
+      if (e.keyCode === 13) {
       var r = fuse.search($inputSearch.val());
 	  // console.log("r: "+r);
       $result.empty();
@@ -376,45 +377,56 @@ d3.csv("results-20140806-225139.csv", function(error, flights) {
         $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
       });
     }
+  }
+
+  /* function search1() {
+      var r = fuse.search($inputSearch.val());
+    // console.log("r: "+r);
+      $result.empty();
+      $.each(r.slice(0,10), function() {
+        $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
+      });
+    }*/
 
     function createFuse() {
       var keys = [];
-      if (searchURL) {
+      keys.push('repository_url');
+     /* if (searchURL) {
         keys.push('repository_url');
       }
       if (searchPL) {
 	  // console.log("repository_url cheked!");
         keys.push('repository_language');
-      }
+      }*/
       fuse = new Fuse(books, {
         keys: keys,
         caseSensitive: isCaseSensitive
       });
     }
 
-    function onRurlCheckboxChanged() {
+   /* function onRurlCheckboxChanged() {
       searchURL= $rurlCheckbox.prop('checked');
       createFuse();
-      search();
+      search1();
     }
 
     function onRplCheckboxChanged() {
       searchPL = $rplCheckbox.prop('checked');
       createFuse();
-      search();
+      search1();
     }
 
     function onCaseCheckboxChanged() {
       isCaseSensitive = $caseCheckbox.prop('checked');
       createFuse();
-      search();
-    }
+      search1();
+    }*/
 
-    $rurlCheckbox.on('change', onRurlCheckboxChanged);
+   /* $rurlCheckbox.on('change', onRurlCheckboxChanged);
     $rplCheckbox.on('change', onRplCheckboxChanged);
-    $caseCheckbox.on('change', onCaseCheckboxChanged);
+    $caseCheckbox.on('change', onCaseCheckboxChanged);*/
 
-    $inputSearch.on('keyup', search);
+    $inputSearch.on('keyup', function(e){search2(e);});
 
     createFuse();
   }
@@ -454,6 +466,8 @@ d3.select("#languageCount").selectAll("p").data(sortedLangCount.slice(0,10)).ent
 
 // console.log(sortedLangCount);
 
+// console.log(date.top(100));
+// console.log(date.top(Infinity));
 	fuse1(date.top(Infinity));
   // fuse1(conData);
 	//fuse1(flights);
