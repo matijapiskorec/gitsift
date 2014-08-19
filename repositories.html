@@ -209,6 +209,9 @@ aside {
 
 <aside id="totals"><span id="active">-</span> of <span id="total">-</span> repositories selected.</aside>
 
+<div id="languageCount">
+</div>
+
 <div id="lists">
   <div id="flight-list" class="list"></div>
 </div>
@@ -231,7 +234,7 @@ aside {
   
     <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.min.js"></script>
   
-    <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.js"></script>
+    <!-- <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.js"></script> -->
 
 <script>
 
@@ -367,9 +370,9 @@ d3.csv("results-20140806-225139.csv", function(error, flights) {
 
     function search() {
       var r = fuse.search($inputSearch.val());
-	  console.log("r: "+r);
+	  // console.log("r: "+r);
       $result.empty();
-      $.each(r, function() {
+      $.each(r.slice(0,10), function() {
         $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
       });
     }
@@ -380,7 +383,7 @@ d3.csv("results-20140806-225139.csv", function(error, flights) {
         keys.push('repository_url');
       }
       if (searchPL) {
-	  console.log("repository_url cheked!");
+	  // console.log("repository_url cheked!");
         keys.push('repository_language');
       }
       fuse = new Fuse(books, {
@@ -417,27 +420,42 @@ d3.csv("results-20140806-225139.csv", function(error, flights) {
   }
 
  // $.getJSON('../data/github.json', function(data) {
-	console.log(data);
+	// console.log(data);
      start(data);
   }
   
   // Whenever the brush moves, re-rendering everything.
   function renderAll() {
   //console.log(flights[1].repository_url);
-   console.log(nestByDate.entries(date.top(40)));
-  console.log(nestByDate.entries(date.top(40))[1].values[0].repository_url);
-  console.log(nestByDate.entries(date.top(40)).length);
-  console.log(nestByDate.entries(date.top(40))[0].values.length);
-  var conData=[];
-  for (i = 0; i < nestByDate.entries(date.top(40)).length; i++) { 
-	for(j=0;j<nestByDate.entries(date.top(40))[i].values.length;j++)
-		conData.push(nestByDate.entries(date.top(40))[i].values[j]);
-}
+  //  console.log(nestByDate.entries(date.top(40)));
+  // console.log(nestByDate.entries(date.top(40))[1].values[0].repository_url);
+  // console.log(nestByDate.entries(date.top(40)).length);
+  // console.log(nestByDate.entries(date.top(40))[0].values.length);
 
-console.log("conData: "+conData);
-console.log("conData size: "+conData.length);
+//   var conData=[];
+//   for (i = 0; i < nestByDate.entries(date.top(40)).length; i++) { 
+// 	for(j=0;j<nestByDate.entries(date.top(40))[i].values.length;j++)
+// 		conData.push(nestByDate.entries(date.top(40))[i].values[j]);
+// }
 
-	fuse1(conData);
+// console.log("conData: "+conData);
+// console.log("conData size: "+conData.length);
+
+// console.log(date.top(Infinity));
+
+var nestByLang = d3.nest().key(function(d) { return d.repository_language; });
+var flightsByLang = nestByLang.entries(date.top(Infinity));
+var langCount = flightsByLang.map(function(d) {return {"lang": d.key, "count":d.values.length};});
+var sortedLangCount = langCount.sort(function(a,b) {return b.count-a.count;});
+
+$("#languageCount").empty();
+
+d3.select("#languageCount").selectAll("p").data(sortedLangCount.slice(0,10)).enter().append("p").text(function(d){return d.lang + " " + d.count;});
+
+// console.log(sortedLangCount);
+
+	fuse1(date.top(Infinity));
+  // fuse1(conData);
 	//fuse1(flights);
     chart.each(render);
     list.each(render);
