@@ -107,39 +107,39 @@ h1, h2 {
   width: 920px;
 }
 
-#flight-list {
+#git-list {
   min-height: 1024px;
 }
 
-#flight-list .date,
-#flight-list .day {
+#git-list .date,
+#git-list .day {
   margin-bottom: .4em;
 }
 
-#flight-list .flight {
+#git-list .flight {
   line-height: 1.5em;
   background: #eee;
   width: 640px;
   margin-bottom: 1px;
 }
 
-#flight-list .time {
+#git-list .time {
   color: #999;
 }
 
-#flight-list .flight div {
+#git-list .flight div {
   display: inline-block;
   width: 100px;
 }
 
-#flight-list div.distance,
-#flight-list div.delay {
+#git-list div.distance,
+#git-list div.delay {
   width: 160px;
   padding-right: 10px;
   text-align: right;
 }
 
-#flight-list .early {
+#git-list .early {
   color: green;
 }
 
@@ -213,7 +213,7 @@ aside {
 </div>
 
 <div id="lists">
-  <div id="flight-list" class="list"></div>
+  <div id="git-list" class="list"></div>
 </div>
 
 <footer>
@@ -262,6 +262,7 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
   });
 
   // Create the crossfilter for the relevant dimensions and groups.
+
   var flight = crossfilter(flights),
       all = flight.groupAll(),
 
@@ -346,50 +347,9 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
   d3.selectAll("#total")
       .text(formatNumber(flight.size()));
 
-  renderAll();
-
-  // Renders the specified chart or list.
-  function render(method) {
-    d3.select(this).call(method);
-  }
-
-  function fuse1(data){
-		function start(books) {
-    var $inputSearch = $('#inputSearch'),
-        $result = $('#results'),
-
-        /*$rurlCheckbox = $('#repurl'),
-        $rplCheckbox = $('#replanguage'),
-        $caseCheckbox = $('#case'),*/
-
-        searchURL =true,
-        //searchPL = true,
-        isCaseSensitive = false,
-
-        fuse;
-
-    function search2(e) {
-      if (e.keyCode === 13) {
-      var r = fuse.search($inputSearch.val());
-	  // console.log("r: "+r);
-      $result.empty();
-      $.each(r.slice(0,10), function() {
-        $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
-      });
-    }
-  }
-
-  /* function search1() {
-      var r = fuse.search($inputSearch.val());
-    // console.log("r: "+r);
-      $result.empty();
-      $.each(r.slice(0,10), function() {
-        $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
-      });
-    }*/
-
-    function createFuse() {
-      var keys = [];
+  var currData;
+	
+  var keys = [];
       keys.push('repository_url');
      /* if (searchURL) {
         keys.push('repository_url');
@@ -398,51 +358,37 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
 	  // console.log("repository_url cheked!");
         keys.push('repository_language');
       }*/
-      fuse = new Fuse(books, {
+      fuse = new Fuse(date.top(Infinity), {
         keys: keys,
-        caseSensitive: isCaseSensitive
+        caseSensitive: false
+      });
+	
+  renderAll();
+
+  // Renders the specified chart or list.
+  function render(method) {
+    d3.select(this).call(method);
+  }
+  
+  
+  function search2(e) {
+   $result = $('#results');
+      if (e.keyCode === 13) {
+	   console.log("fuse...");
+      var r = fuse.search($inputSearch.val());
+	  // console.log("r: "+r);
+      $result.empty();
+      $.each(r.slice(0,10), function() {
+        $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
       });
     }
-
-   /* function onRurlCheckboxChanged() {
-      searchURL= $rurlCheckbox.prop('checked');
-      createFuse();
-      search1();
-    }
-
-    function onRplCheckboxChanged() {
-      searchPL = $rplCheckbox.prop('checked');
-      createFuse();
-      search1();
-    }
-
-    function onCaseCheckboxChanged() {
-      isCaseSensitive = $caseCheckbox.prop('checked');
-      createFuse();
-      search1();
-    }*/
-
-   /* $rurlCheckbox.on('change', onRurlCheckboxChanged);
-    $rplCheckbox.on('change', onRplCheckboxChanged);
-    $caseCheckbox.on('change', onCaseCheckboxChanged);*/
-
-    $inputSearch.on('keyup', function(e){search2(e);});
-
-    createFuse();
   }
-
- // $.getJSON('../data/github.json', function(data) {
-	// console.log(data);
-     start(data);
-  }
+  
+   var $inputSearch = $('#inputSearch');
+  $inputSearch.on('keyup', function(e){search2(e);});
   
   // Whenever the brush moves, re-rendering everything.
   function renderAll() {
-  //console.log(flights[1].repository_url);
-  //  console.log(nestByDate.entries(date.top(40)));
-  // console.log(nestByDate.entries(date.top(40))[1].values[0].repository_url);
-  // console.log(nestByDate.entries(date.top(40)).length);
-  // console.log(nestByDate.entries(date.top(40))[0].values.length);
 
 //   var conData=[];
 //   for (i = 0; i < nestByDate.entries(date.top(40)).length; i++) { 
@@ -454,9 +400,10 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
 // console.log("conData size: "+conData.length);
 
 // console.log(date.top(Infinity));
-
+ //console.log("function call!")
 var nestByLang = d3.nest().key(function(d) { return d.repository_language; });
-var flightsByLang = nestByLang.entries(date.top(Infinity));
+var workingData=date.top(Infinity);
+var flightsByLang = nestByLang.entries(workingData);
 var langCount = flightsByLang.map(function(d) {return {"lang": d.key, "count":d.values.length};});
 var sortedLangCount = langCount.sort(function(a,b) {return b.count-a.count;});
 
@@ -464,13 +411,7 @@ $("#languageCount").empty();
 
 d3.select("#languageCount").selectAll("p").data(sortedLangCount.slice(0,10)).enter().append("p").text(function(d){return d.lang + " " + d.count;});
 
-// console.log(sortedLangCount);
-
-// console.log(date.top(100));
-// console.log(date.top(Infinity));
-	fuse1(date.top(Infinity));
-  // fuse1(conData);
-	//fuse1(flights);
+	fuse.list=workingData;
     chart.each(render);
     list.each(render);
     d3.select("#active").text(formatNumber(all.value()));
