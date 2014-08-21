@@ -274,6 +274,30 @@ aside {
  display: inline-block;
 }
 
+a {
+  text-decoration: none;
+}
+
+/* unvisited link */
+a:link {
+    color: black;
+}
+
+/* visited link */
+a:visited {
+    color: steelblue;
+}
+
+/* mouse over link */
+a:hover {
+    color: steelblue;
+}
+
+/* selected link */
+a:active {
+    color: steelblue;
+}
+
 </style>
 
 <div id="body">
@@ -542,7 +566,7 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
       $result.empty();
       $.each(r.slice(0,15), function() {
         // $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
-        $result.append('<div>' + this.repository_url + ', ' + this.repository_language + '</div>');
+        $result.append("<div><a href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
       });
     // }
   }
@@ -669,7 +693,8 @@ function parseDate(d) {
 
       flightEnter.append("div")
           .attr("class", "giturl")
-          .text(function(d) { return d.repository_url; });
+          .html(function(d) { return "<a href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
+          // .text(function(d) { return d.repository_url; });
 
       flightEnter.append("div")
           .attr("class", "number")
