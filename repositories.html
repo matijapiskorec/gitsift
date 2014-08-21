@@ -116,20 +116,48 @@ h1, h2 {
   margin-bottom: .4em;
 }
 
+#git-list.date .githeader{
+width:940px;
+}
+
 #git-list .flight {
   line-height: 1.5em;
   background: #eee;
-  width: 640px;
+  width: 940px;
   margin-bottom: 1px;
 }
 
-#git-list .time {
+#git-list .flight .time {
+ display: inline-block;
   color: #999;
+  width: 150px;
 }
 
 #git-list .flight div {
   display: inline-block;
   width: 100px;
+}
+
+#git-list .flight .number{
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+}
+#git-list .flight .proglang{
+  display: inline-block;
+  width: 150px;
+  margin-left: 20px;
+}
+
+#git-list .flight .giturl{
+  display: inline-block;
+  width: 300px;
+}
+
+#gl{
+height: 30px;
+font-size: 18px;
+display: inline-block;
 }
 
 #git-list div.distance,
@@ -238,6 +266,11 @@ aside {
 <div id="languageCount">
 </div>
 
+<div id="gl">
+<div class="time" style="text-align: left;">Creation date </div> 
+<div class="giturl" >Repository name</div>
+</div>
+
 <div id="lists">
   <div id="git-list" class="list"></div>
 </div>
@@ -271,7 +304,7 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
   var formatNumber = d3.format(",d"),
       formatChange = d3.format("+,d"),
       formatDate = d3.time.format("%B %d, %Y"),
-      formatTime = d3.time.format("%I:%M %p");
+      formatTime = d3.time.format("%Y-%m-%d %H:%M");
 
   // A nest operator, for grouping the flight list.
   var nestByDate = d3.nest()
@@ -510,14 +543,11 @@ function parseDate(d) {
     var flightsByDate = nestByDate.entries(date.top(40));
 
     div.each(function() {
+    
       var date = d3.select(this).selectAll(".date")
           .data(flightsByDate, function(d) { return d.key; });
 
-      date.enter().append("div")
-          .attr("class", "date")
-        .append("div")
-          .attr("class", "day")
-          .text(function(d) { return formatDate(d.values[0].date); });
+      date.enter().append("div");
 
       date.exit().remove();
 
@@ -532,27 +562,27 @@ function parseDate(d) {
           .text(function(d) { return formatTime(d.date); });
 
       flightEnter.append("div")
-          .attr("class", "time")
-          .text(function(d) { return d.repository_url.substring(18); });
+          .attr("class", "giturl")
+          .text(function(d) { return d.repository_url; });
 
       flightEnter.append("div")
-          .attr("class", "time")
+          .attr("class", "number")
           .text(function(d) { return formatNumber(d.forks); });
 
       flightEnter.append("div")
-          .attr("class", "time")
+          .attr("class", "number")
           .text(function(d) { return formatNumber(d.repo_size); });
 
       flightEnter.append("div")
-          .attr("class", "time")
+          .attr("class", "number")
           .text(function(d) { return formatNumber(d.issues); });
 
       flightEnter.append("div")
-          .attr("class", "time")
+          .attr("class", "number")
           .text(function(d) { return formatNumber(d.watchers); });
 
       flightEnter.append("div")
-          .attr("class", "time")
+          .attr("class", "proglang")
           .text(function(d) { return d.repository_language; });
 
       flight.exit().remove();
