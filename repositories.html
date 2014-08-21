@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Crossfilter</title>
+<title>Gitsift</title>
 <style>
 
-@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+/*@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);*/
+@import url(http://fonts.googleapis.com/css?family=Lato:400:700);
 
 body {
   font-family: "Helvetica Neue";
@@ -37,7 +38,8 @@ h2 {
 }
 
 h1, h2 {
-  font-family: "Yanone Kaffeesatz";
+  /*font-family: "Yanone Kaffeesatz";*/
+  font-family: "Lato";
   text-rendering: optimizeLegibility;
 }
 
@@ -207,13 +209,15 @@ aside {
 
 <div id="body">
 
-<!-- <a href="https://github.com/square"><img src="logotype.png" width="122" height="31"></a>
+<!-- <a href="https://github.com/square"><img src="logotype.png" width="122" height="31"></a> -->
 
-<h1>Crossfilter</h1>
+<h1>Gitsift</h1>
 
-<h2>Fast Multidimensional Filtering for Coordinated Views</h2>
+<h2>Visualizing GitHub public timeline data with D3 and Crossfilter.</h2>
 
-<p><b>Crossfilter</b> is a <a href="https://github.com/square/crossfilter">JavaScript library</a> for exploring large multivariate datasets in the browser. Crossfilter supports extremely fast (&lt;30ms) interaction with coordinated views, even with datasets containing a million or more records; we built it to power analytics for <a href="https://squareup.com/register">Square Register</a>, allowing merchants to slice and dice their payment history fluidly.
+<p>Gitsift is a visualization of GitHub public timeline data using D3 and Crossfilter. Most of the code is blatantly copied from Crossfilter's official <a href="https://github.com/square/crossfilter">example</a>. Everybody has to start somewhere. Definition of sift from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>: <i>"to go through (something) very carefully in order to find something useful or valuable"</i>. For more information on how to retrieve data from <a href="https://developers.google.com/bigquery/">Google BigQuery</a> read our <a href="https://github.com/matijapiskorec/gitsift">README</a>.</p>
+
+<!-- <p><b>Crossfilter</b> is a <a href="https://github.com/square/crossfilter">JavaScript library</a> for exploring large multivariate datasets in the browser. Crossfilter supports extremely fast (&lt;30ms) interaction with coordinated views, even with datasets containing a million or more records; we built it to power analytics for <a href="https://squareup.com/register">Square Register</a>, allowing merchants to slice and dice their payment history fluidly.
 
 <p>Since most interactions only involve a single dimension, and then only small adjustments are made to the filter values, incremental filtering and reducing is significantly faster than starting from scratch. Crossfilter uses sorted indexes (and a few bit-twiddling hacks) to make this possible, dramatically increasing the perfor&shy;mance of live histograms and top-<i>K</i> lists. For more details on how Crossfilter works, see the <a href="https://github.com/square/crossfilter/wiki/API-Reference">API reference</a>.
 
@@ -279,7 +283,7 @@ aside {
   <span style="float:right;">
     Released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a>.
   </span>
-  Copyright 2012 <a href="http://squareup.com">Square, Inc.</a>
+  <!-- Copyright 2012 <a href="http://squareup.com">Square, Inc.</a> -->
 </footer>
 
 </div>
