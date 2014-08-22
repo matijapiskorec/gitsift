@@ -3,7 +3,6 @@
 <title>Gitsift</title>
 <style>
 
-/*@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);*/
 @import url(http://fonts.googleapis.com/css?family=Lato:400:700);
 
 body {
@@ -38,7 +37,6 @@ h2 {
 }
 
 h1, h2 {
-  /*font-family: "Yanone Kaffeesatz";*/
   font-family: "Lato";
   text-rendering: optimizeLegibility;
 }
@@ -98,10 +96,6 @@ h1, h2 {
   width: 260px;
 }
 
-/*#delay-chart {
-  width: 230px;
-}*/
-
 #size-chart {
   width: 420px;
 }
@@ -135,37 +129,37 @@ h1, h2 {
 width:940px;
 }
 
-#git-list .flight {
+#git-list .repo {
   line-height: 1.5em;
   background: #eee;
   width: 940px;
   margin-bottom: 1px;
 }
 
-#git-list .flight .time {
+#git-list .repo .time {
  display: inline-block;
   color: #999;
   width: 150px;
 }
 
-#git-list .flight div {
+#git-list .repo div {
   display: inline-block;
   width: 100px;
 }
 
-#git-list .flight .number{
+#git-list .repo .number{
   display: inline-block;
   width: 80px;
   text-align: right;
 }
-#git-list .flight .proglang{
+#git-list .repo .proglang{
   display: inline-block;
   width: 100px;
   margin-left: 40px;
   text-align: left;
 }
 
-#git-list .flight .giturl{
+#git-list .repo .giturl{
   display: inline-block;
   width: 300px;
 }
@@ -278,22 +272,18 @@ a {
   text-decoration: none;
 }
 
-/* unvisited link */
 a:link {
     color: black;
 }
 
-/* visited link */
 a:visited {
     color: steelblue;
 }
 
-/* mouse over link */
 a:hover {
     color: steelblue;
 }
 
-/* selected link */
 a:active {
     color: steelblue;
 }
@@ -302,8 +292,6 @@ a:active {
 
 <div id="body">
 
-<!-- <a href="https://github.com/square"><img src="logotype.png" width="122" height="31"></a> -->
-
 <h1>Gitsift</h1>
 
 <h2>Visualizing GitHub public timeline data with D3 and Crossfilter.</h2>
@@ -311,16 +299,6 @@ a:active {
 <p>Gitsift is a visualization of GitHub public timeline data using D3 and Crossfilter. Most of the code is blatantly copied from Crossfilter's official <a href="https://github.com/square/crossfilter">example</a>. Everybody has to start somewhere. Definition of sift from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>: <i>"to go through (something) very carefully in order to find something useful or valuable"</i>. For more information on how to retrieve data from <a href="https://developers.google.com/bigquery/">Google BigQuery</a> read our <a href="https://github.com/matijapiskorec/gitsift">README</a>.</p>
 
 <p>This is an example of selecting only <a href="javascript:filter([null, null, null, null, null,[new Date(2012, 0, 1), new Date(2013, 0, 1)]])">year 2012</a>.</p>
-
-<!-- <p><b>Crossfilter</b> is a <a href="https://github.com/square/crossfilter">JavaScript library</a> for exploring large multivariate datasets in the browser. Crossfilter supports extremely fast (&lt;30ms) interaction with coordinated views, even with datasets containing a million or more records; we built it to power analytics for <a href="https://squareup.com/register">Square Register</a>, allowing merchants to slice and dice their payment history fluidly.
-
-<p>Since most interactions only involve a single dimension, and then only small adjustments are made to the filter values, incremental filtering and reducing is significantly faster than starting from scratch. Crossfilter uses sorted indexes (and a few bit-twiddling hacks) to make this possible, dramatically increasing the perfor&shy;mance of live histograms and top-<i>K</i> lists. For more details on how Crossfilter works, see the <a href="https://github.com/square/crossfilter/wiki/API-Reference">API reference</a>.
-
-<h2>Example: Airline on-time performance</h2>
-
-<p>The coordinated visualizations below (built with <a href="http://mbostock.github.com/d3/">D3</a>) show nearly a quarter-million flights from early 2001: part of the <a href="http://stat-computing.org/dataexpo/2009/">ASA Data Expo</a> dataset. The dataset is 5.3MB, so it might take a few seconds to download. Click and drag on any chart to filter by the associated dimension. The table beneath shows the eighty most recent flights that match the current filters; these are the <i>details on demand</i>, anecdotal evidence you can use to weigh different hypotheses.
-
-<p>Some questions to consider: How does time-of-day correlate with <a href="javascript:filter([null, [100, 150], null, null])">arrival delay</a>? Are <a href="javascript:filter([null, null, [1700, 2000], null])">longer</a> or <a href="javascript:filter([null, null, [0, 300], null])">shorter</a> flights more likely to arrive early? What happened on <a href="javascript:filter([null, [80, 150], null, [new Date(2001, 0, 12), new Date(2001, 0, 13)]])">January 12</a>? How do flight patterns differ between <a href="javascript:filter([null, null, null, [new Date(2001, 0, 27), new Date(2001, 0, 29)]])">weekends</a> and <a href="javascript:filter([null, null, null, [new Date(2001, 0, 29), new Date(2001, 1, 3)]])">weekdays</a>, or <a href="javascript:filter([[4, 7], null, null, null])">mornings</a> and <a href="javascript:filter([[21, 24], null, null, null])">nights</a>? <a href="https://github.com/square/crossfilter/tree/gh-pages">Fork this example</a> and try your own data! -->
 
 <div id="charts">
   <div id="hour-chart" class="chart">
@@ -358,9 +336,6 @@ a:active {
     <p><input id="inputSearch" placeholder="Search...">
     <p>The results are sorted by score. That is, the ones that match the strongest are first.</p>
 
-<!--     <ul id="searchResults">
-    </ul>
- -->
     <div id="searchResults">
     </div>
 
@@ -406,26 +381,21 @@ a:active {
   <span style="float:right;">
     Released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a>.
   </span>
-  <!-- Copyright 2012 <a href="http://squareup.com">Square, Inc.</a> -->
 </footer>
 
 </div>
 
-<!-- <a href="https://github.com/square/crossfilter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+<a href="https://github.com/matijapiskorec/gitsift"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 <script src="crossfilter.min.js"></script>
 <script src="d3.min.js"></script>
-
- <script type="text/javascript" src="./jquery.min.js"></script>
-  
-    <script type="text/javascript" src="./fuse.min.js"></script>
-  
-    <!-- <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.js"></script> -->
+<script type="text/javascript" src="./jquery.min.js"></script>
+<script type="text/javascript" src="./fuse.min.js"></script>
 
 <script>
 
 // (It's CSV, but GitHub Pages only gzip's JSON at the moment.)
-d3.csv("repositories_data_44k_short.csv", function(error, flights) {
+d3.csv("repositories_data_44k_short.csv", function(error, repos) {
 
   // Various formatters.
   var formatNumber = d3.format(",d"),
@@ -433,12 +403,12 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
       formatDate = d3.time.format("%B %d, %Y"),
       formatTime = d3.time.format("%Y-%m-%d %H:%M");
 
-  // A nest operator, for grouping the flight list.
+  // A nest operator, for grouping the repo list.
   var nestByDate = d3.nest()
       .key(function(d) { return d3.time.day(d.date); });
 
   // A little coercion, since the CSV is untyped.
-  flights.forEach(function(d, i) {
+  repos.forEach(function(d, i) {
     d.index = i;
     d.date = parseDate(d.date);
     d.forks = +d.forks;
@@ -449,25 +419,25 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
 
   // Create the crossfilter for the relevant dimensions and groups.
 
-  var flight = crossfilter(flights),
-      all = flight.groupAll(),
+  var repo = crossfilter(repos),
+      all = repo.groupAll(),
 
-      date = flight.dimension(function(d) { return d.date; }),
+      date = repo.dimension(function(d) { return d.date; }),
       dates = date.group(d3.time.month),
 
-      hour = flight.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
+      hour = repo.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
 
-      fork = flight.dimension(function(d) { return d.forks; }),
+      fork = repo.dimension(function(d) { return d.forks; }),
       forks = fork.group(function(d) { return Math.floor(d / 25) * 25; }),
 
-      repo_size = flight.dimension(function(d) { return d.repo_size; }),
+      repo_size = repo.dimension(function(d) { return d.repo_size; }),
       repo_sizes = repo_size.group(function(d) { return Math.floor(d / 50) * 50; }),
 
-      issue = flight.dimension(function(d) { return d.issues; }),
+      issue = repo.dimension(function(d) { return d.issues; }),
       issues = issue.group(function(d) { return Math.floor(d / 5) * 5; }),
       
-      watcher = flight.dimension(function(d) { return d.watchers; }),
+      watcher = repo.dimension(function(d) { return d.watchers; }),
       watchers = watcher.group(function(d) { return Math.floor(d / 25) * 25; });
 
   var charts = [
@@ -527,23 +497,16 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
 
   // Render the initial lists.
   var list = d3.selectAll(".list")
-      .data([flightList]);
+      .data([repoList]);
 
   // Render the total.
   d3.selectAll("#total")
-      .text(formatNumber(flight.size()));
+      .text(formatNumber(repo.size()));
 
   var currData;
 	
   var keys = [];
       keys.push('repository_url');
-     /* if (searchURL) {
-        keys.push('repository_url');
-      }
-      if (searchPL) {
-	  // console.log("repository_url cheked!");
-        keys.push('repository_language');
-      }*/
       fuse = new Fuse(date.top(Infinity), {
         keys: keys,
         caseSensitive: false
@@ -558,20 +521,12 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
   
   
   function search2(e) {
-   $result = $('#searchResults');
-      // if (e.keyCode === 13) {
-	   // console.log("fuse...");
-       //console.log(fuse.options);
-      // console.log("include score: "+fuse.options['includeScore']);
-      // fuse.options['includeScore']=true;
-      var r = fuse.search($inputSearch.val());
-	  // console.log("r: "+r[0].item.repository_url+" "+r[0].score);
-      $result.empty();
-      $.each(r.slice(0,15), function() {
-        // $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
-        $result.append("<div><a href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
-      });
-    // }
+    $result = $('#searchResults');
+    var r = fuse.search($inputSearch.val());
+    $result.empty();
+    $.each(r.slice(0,15), function() {
+    $result.append("<div><a href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
+    });
   }
   
    var $inputSearch = $('#inputSearch');
@@ -580,66 +535,52 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
   // Whenever the brush moves, re-rendering everything.
   function renderAll() {
 
-//   var conData=[];
-//   for (i = 0; i < nestByDate.entries(date.top(40)).length; i++) { 
-// 	for(j=0;j<nestByDate.entries(date.top(40))[i].values.length;j++)
-// 		conData.push(nestByDate.entries(date.top(40))[i].values[j]);
-// }
+    var nestByLang = d3.nest().key(function(d) { return d.repository_language; });
+    var workingData=date.top(Infinity);
+    var reposByLang = nestByLang.entries(workingData);
+    var langCount = reposByLang.map(function(d) {return {"lang": d.key, "count":d.values.length};});
+    var sortedLangCount = langCount.sort(function(a,b) {return b.count-a.count;});
 
-// console.log("conData: "+conData);
-// console.log("conData size: "+conData.length);
+    $("#languageCount").empty();
 
-// console.log(date.top(Infinity));
- //console.log("function call!")
-var nestByLang = d3.nest().key(function(d) { return d.repository_language; });
-var workingData=date.top(Infinity);
-var flightsByLang = nestByLang.entries(workingData);
-var langCount = flightsByLang.map(function(d) {return {"lang": d.key, "count":d.values.length};});
-var sortedLangCount = langCount.sort(function(a,b) {return b.count-a.count;});
+    var languageData = sortedLangCount.slice(0,20).reverse();
 
-$("#languageCount").empty();
-// $("#languageCount").append( "<div>Most popular languages</div>" );
+    var margin = {top: 5, right: 30, bottom: 5, left: 80},
+        width = 300 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
-// d3.select("#languageCount").selectAll("p").data(sortedLangCount.slice(0,10)).enter().append("p").text(function(d){return d.lang + " " + d.count;});
+    var y = d3.scale.ordinal()
+        .rangeRoundBands([height, 0], .1);
 
-var languageData = sortedLangCount.slice(0,20).reverse();
+    var x = d3.scale.linear()
+        .range([0, width]);
 
-var margin = {top: 5, right: 30, bottom: 5, left: 80},
-    width = 300 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
 
-var y = d3.scale.ordinal()
-    .rangeRoundBands([height, 0], .1);
+    y.domain(languageData.map(function(d) { return d.lang; }));
+    x.domain([0, d3.max(languageData, function(d) { return d.count; })]);
 
-var x = d3.scale.linear()
-    .range([0, width]);
+    var svg = d3.select("#languageCount").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+      svg.append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(0, 0)")
+          .call(yAxis);
 
-y.domain(languageData.map(function(d) { return d.lang; }));
-x.domain([0, d3.max(languageData, function(d) { return d.count; })]);
-
-var svg = d3.select("#languageCount").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .attr("transform", "translate(0, 0)")
-      .call(yAxis);
-
-  svg.selectAll(".bar")
-      .data(languageData)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("y", function(d) { return y(d.lang); })
-      .attr("height", y.rangeBand())
-      .attr("x", function(d) { return 0; })
-      .attr("width", function(d) { return x(d.count); });
+      svg.selectAll(".bar")
+          .data(languageData)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("y", function(d) { return y(d.lang); })
+          .attr("height", y.rangeBand())
+          .attr("x", function(d) { return 0; })
+          .attr("width", function(d) { return x(d.count); });
 
 
 	fuse.list=workingData;
@@ -648,18 +589,9 @@ var svg = d3.select("#languageCount").append("svg")
     d3.select("#active").text(formatNumber(all.value()));
   }
 
-  // // Like d3.time.format, but faster.
-  // function parseDate(d) {
-  //   return new Date(2001,
-  //       d.substring(0, 2) - 1,
-  //       d.substring(2, 4),
-  //       d.substring(4, 6),
-  //       d.substring(6, 8));
-  // }
-
-function parseDate(d) {
-    return new Date(Date.parse(d));
-  }
+  function parseDate(d) {
+      return new Date(Date.parse(d));
+    }
 
   window.filter = function(filters) {
     filters.forEach(function(d, i) { charts[i].filter(d); });
@@ -671,57 +603,56 @@ function parseDate(d) {
     renderAll();
   };
 
-  function flightList(div) {
-    var flightsByDate = nestByDate.entries(date.top(40));
+  function repoList(div) {
+    var reposByDate = nestByDate.entries(date.top(40));
 
     div.each(function() {
     
       var date = d3.select(this).selectAll(".date")
-          .data(flightsByDate, function(d) { return d.key; });
+          .data(reposByDate, function(d) { return d.key; });
 
       date.enter().append("div")
           .attr("class", "date")
 
       date.exit().remove();
 
-      var flight = date.order().selectAll(".flight")
+      var repo = date.order().selectAll(".repo")
           .data(function(d) { return d.values; }, function(d) { return d.index; });
 
-      var flightEnter = flight.enter().append("div")
-          .attr("class", "flight");
+      var repoEnter = repo.enter().append("div")
+          .attr("class", "repo");
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "time")
           .text(function(d) { return formatTime(d.date); });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "giturl")
           .html(function(d) { return "<a href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
-          // .text(function(d) { return d.repository_url; });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "number")
           .text(function(d) { return formatNumber(d.forks); });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "number")
           .text(function(d) { return formatNumber(d.repo_size); });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "number")
           .text(function(d) { return formatNumber(d.issues); });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "number")
           .text(function(d) { return formatNumber(d.watchers); });
 
-      flightEnter.append("div")
+      repoEnter.append("div")
           .attr("class", "proglang")
           .text(function(d) { return d.repository_language; });
 
-      flight.exit().remove();
+      repo.exit().remove();
 
-      flight.order();
+      repo.order();
     });
   }
 
