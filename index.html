@@ -206,7 +206,7 @@ aside {
   position: absolute;
   left: 600px;
   font-size: smaller;
-  width: 230px;
+  width: 300px;
 }
 
 
@@ -349,13 +349,13 @@ a.listLink:hover {
 
 <h1>Gitsift</h1>
 
-<h2>Visualizing GitHub public timeline data with D3 and Crossfilter.</h2>
+<h2>Visualizing GitHub repositories with D3, Crossfilter and Fuse</h2>
 
-<p>Gitsift is a visualization of GitHub public timeline data using D3 and Crossfilter. Most of the code is blatantly copied from Crossfilter's official <a href="https://github.com/square/crossfilter">example</a>. Everybody has to start somewhere. Definition of sift from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>: <i>"to go through (something) very carefully in order to find something useful or valuable"</i>. For more information on how to retrieve data from <a href="https://developers.google.com/bigquery/">Google BigQuery</a> read our <a href="https://github.com/matijapiskorec/gitsift">README</a>.</p>
+<p>Gitsift is a visualization of over 119K GitHub repositories using <a href="http://d3js.org/">D3</a>, <a href="http://square.github.io/crossfilter/">Crossfilter</a> and <a href="http://kiro.me/projects/fuse.html">Fuse</a>. We admit it, code and design is blatantly copied from Mike Bostock's excellent <a href="https://github.com/square/crossfilter">Crossfilter's example</a>. We were interested in leveraging this visualization on GitHub's repositories dataset, and to provide few additional features that help <i>"to go through (something) very carefully in order to find something useful or valuable"</i> (definition of <i>"sift"</i> from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>). You can also look at it as a showoff of how GitHub's <a href="https://github.com/explore">Explore</a> page could look like.</p>
 
-<!-- <p>This is an example of selecting only <a href="javascript:filter([null, null, null, null, null,[new Date(2012, 0, 1), new Date(2013, 0, 1)]])">year 2012</a>.</p> -->
+<p>Click and drag on any of the charts to select a subset of repositories satisfying certain criteria. List on the bottom shows 40 of these selected repositories that were created most recently, but you can also sort by other criteria by clicking on one of the categories in the header. Also, you can search the url's of these selected repositories to obtain 14 best matches (although bear in mind that it can be quite slow if performed on the whole dataset). The whole dataset is around 3.5 MB so it can take some time for the page to load.
 
-<p> For example, you can try to find a <a href="javascript:filter([null, null, null, null, null,[new Date(2009, 10, 15), new Date(2010, 1, 0)]])">time period</a> when Javascript surprassed Ruby as the most popular language for new repositories. Or you can wonder why did the majority of repositories back in the <a href="javascript:filter([null, null, null, null, null,[new Date(2008, 0, 1), new Date(2008, 11, 31)]])">2008</a> were created between 6 and 7 PM? </p>
+<p>Feel free to play and explore! For example, you can try to find a <a href="javascript:filter([null, null, null, null, null,[new Date(2009, 11, 1), new Date(2010, 3, 1)]])">time period</a> when Javascript surprassed Ruby as the most popular language for new repositories. Or you can wonder why were so many of the repositories back in the <a href="javascript:filter([null, null, null, null, null,[new Date(2008, 0, 1), new Date(2008, 11, 31)]])">2008</a> created between 6 and 7 PM? </p>
 
 
 <div id="charts">
@@ -392,7 +392,7 @@ a.listLink:hover {
   <div>
     <div class="title">Search selected repositories</div>
     <p><input id="inputSearch" placeholder="Search...">
-    <p>The results are sorted by score. That is, the ones that match the strongest are first.</p>
+    <!-- <p>The results are sorted by score. That is, the ones that match the strongest are first.</p> -->
 
     <div id="searchResults">
     </div>
@@ -532,8 +532,8 @@ d3.csv("repositories_data_119k.json", function(error, repos) {
         .dimension(watcher)
         .group(watchers)
       .x(d3.scale.linear()
-        .domain([0, 1000])
-        .rangeRound([0, 10 * 40])),
+        .domain([0, 600])
+        .rangeRound([0, 10 * 24])),
 
     barChart()
         .dimension(date)
@@ -582,7 +582,7 @@ d3.csv("repositories_data_119k.json", function(error, repos) {
     $result = $('#searchResults');
     var r = fuse.search($inputSearch.val());
     $result.empty();
-    $.each(r.slice(0,12), function() {
+    $.each(r.slice(0,14), function() {
     $result.append("<div class='searchResultDiv'><a class='listLink' href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
     });
   }
@@ -727,7 +727,11 @@ d3.csv("repositories_data_119k.json", function(error, repos) {
 
       repoEnter.append("div")
           .attr("class", "giturl")
-          .html(function(d) { return "<a class='listLink' href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
+          .html(function(d) { var shorterURL;
+                              if (d.repository_url.length >= 25) { shorterURL = d.repository_url.substring(0,25) + "[...]";  }
+                              else { shorterURL = d.repository_url; }
+                              return "<a class='listLink' href='https://github.com"+ d.repository_url + "'>" + shorterURL + "</a>";
+                              });
 
       repoEnter.append("div")
           .attr("class", "number")
@@ -780,7 +784,11 @@ d3.csv("repositories_data_119k.json", function(error, repos) {
 
       repoEnter.append("div")
           .attr("class", "giturl")
-          .html(function(d) { return "<a href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
+          .html(function(d) { var shorterURL;
+                              if (d.repository_url.length >= 25) { shorterURL = d.repository_url.substring(0,25) + "[...]";  }
+                              else { shorterURL = d.repository_url; }
+                              return "<a class='listLink' href='https://github.com"+ d.repository_url + "'>" + shorterURL + "</a>";
+                              });
 
       repoEnter.append("div")
           .attr("class", "number")
