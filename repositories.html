@@ -416,9 +416,9 @@ a:active {
 <script src="crossfilter.min.js"></script>
 <script src="d3.min.js"></script>
 
- <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/jquery.min.js"></script>
+ <script type="text/javascript" src="./jquery.min.js"></script>
   
-    <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.min.js"></script>
+    <script type="text/javascript" src="./fuse.min.js"></script>
   
     <!-- <script type="text/javascript" src="./Search/Fuse.js   K. Risk - JavaScript Refined_files/fuse.js"></script> -->
 
@@ -561,8 +561,11 @@ d3.csv("repositories_data_44k_short.csv", function(error, flights) {
    $result = $('#searchResults');
       // if (e.keyCode === 13) {
 	   // console.log("fuse...");
+       //console.log(fuse.options);
+      // console.log("include score: "+fuse.options['includeScore']);
+      // fuse.options['includeScore']=true;
       var r = fuse.search($inputSearch.val());
-	  // console.log("r: "+r);
+	  // console.log("r: "+r[0].item.repository_url+" "+r[0].score);
       $result.empty();
       $.each(r.slice(0,15), function() {
         // $result.append('<li class="result-item">' + this.repository_url + ', <span>' + this.repository_language + '</span></li>');
