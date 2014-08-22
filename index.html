@@ -269,6 +269,34 @@ aside {
  display: inline-block;
 }
 
+.hrn:hover{
+color:steelblue;
+}
+
+.hdate:hover{
+color:steelblue;
+}
+
+.hpl:hover{
+color:steelblue;
+}
+
+.hw:hover{
+color:steelblue;
+}
+
+.hsize:hover{
+color:steelblue;
+}
+
+.hiss:hover{
+color:steelblue;
+}
+
+.oneline:hover{
+color:steelblue;
+}
+
 a {
   text-decoration: none;
 }
@@ -333,7 +361,7 @@ a:active {
   </div>
 
   <div>
-    <div class="title">Search repositories</div>
+    <div class="title">Search selected repositories</div>
     <p><input id="inputSearch" placeholder="Search...">
     <p>The results are sorted by score. That is, the ones that match the strongest are first.</p>
 
@@ -345,30 +373,30 @@ a:active {
 </div>
 
 <div id="gl">
-<div class="hdate">
+<div id="hdid" class="hdate">
 <p>Creation date</p>
 </div>
  
-<div class="hrn">
+<div id="hdrn" class="hrn">
 <p>Repository name</p>
 </div>
  
-<div class="oneline">
+<div id="hdf" class="oneline">
 <p>forks</p>
 </div>
-<div class="hsize">
+<div id="hds" class="hsize">
 <p>size</p>
 </div>
 
-<div class="hiss">
+<div id="hdi" class="hiss">
 <p>issues</p>
 </div>
 
-<div class="hw">
+<div id="hdw" class="hw">
 <p>watchers</p>
 </div>
 
-<div class="hpl">
+<div id="hdl" class="hpl">
 <p>language</p>
 </div>
 
@@ -499,7 +527,7 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
   // Render the initial lists.
   var list = d3.selectAll(".list")
       .data([repoList]);
-
+      
   // Render the total.
   d3.selectAll("#total")
       .text(formatNumber(repo.size()));
@@ -533,6 +561,47 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
    var $inputSearch = $('#inputSearch');
   $inputSearch.on('keyup', function(e){search2(e);});
   
+  var $hdate=$('#hdid');
+  $hdate.on('click',function(e){
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByDate,date);}]); list1.each(render);});
+    
+    var $hrname=$('#hdrn');
+  $hrname.on('click',function(e){
+      var nestByName = d3.nest().key(function(d) { return d.repository_name; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByName,date);}]); list1.each(render);});
+      
+       var $hforks=$('#hdf');
+  $hforks.on('click',function(e){
+      var nestByForks = d3.nest().key(function(d) { return d.forks; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByForks,fork);}]); list1.each(render);});
+      
+       var $hissues=$('#hdi');
+  $hissues.on('click',function(e){
+      var nestByLang = d3.nest().key(function(d) { return d.issues; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByLang,issue);}]); list1.each(render);});
+      
+             var $hsize=$('#hds');
+  $hsize.on('click',function(e){
+      var nestBySize = d3.nest().key(function(d) { return d.repo_sizes; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestBySize,repo_size);}]); list1.each(render);});
+
+           var $hwatch=$('#hdw');
+  $hwatch.on('click',function(e){
+      var nestByLang = d3.nest().key(function(d) { return d.watchers; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByLang,watcher);}]); list1.each(render);});
+      
+           var $hlang=$('#hdl');
+  $hlang.on('click',function(e){
+      var nestByLang = d3.nest().key(function(d) { return d.repository_language; });
+      var list1 = d3.selectAll(".list")
+      .data([function(d){return repoList1(d,nestByLang,date);}]); list1.each(render);});
+      
   // Whenever the brush moves, re-rendering everything.
   function renderAll() {
 
@@ -611,6 +680,59 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
     
       var date = d3.select(this).selectAll(".date")
           .data(reposByDate, function(d) { return d.key; });
+
+      date.enter().append("div")
+          .attr("class", "date")
+
+      date.exit().remove();
+
+      var repo = date.order().selectAll(".repo")
+          .data(function(d) { return d.values; }, function(d) { return d.index; });
+
+      var repoEnter = repo.enter().append("div")
+          .attr("class", "repo");
+
+      repoEnter.append("div")
+          .attr("class", "time")
+          .text(function(d) { return formatTime(d.date); });
+
+      repoEnter.append("div")
+          .attr("class", "giturl")
+          .html(function(d) { return "<a href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
+
+      repoEnter.append("div")
+          .attr("class", "number")
+          .text(function(d) { return formatNumber(d.forks); });
+
+      repoEnter.append("div")
+          .attr("class", "number")
+          .text(function(d) { return formatNumber(d.repo_size); });
+
+      repoEnter.append("div")
+          .attr("class", "number")
+          .text(function(d) { return formatNumber(d.issues); });
+
+      repoEnter.append("div")
+          .attr("class", "number")
+          .text(function(d) { return formatNumber(d.watchers); });
+
+      repoEnter.append("div")
+          .attr("class", "proglang")
+          .text(function(d) { return d.repository_language; });
+
+      repo.exit().remove();
+
+      repo.order();
+    });
+  }
+  
+  function repoList1(div,nest, filtData) {
+    var reposBy = nest.entries(filtData.top(40));
+
+    div.each(function() {
+    
+      var date = d3.select(this).selectAll(".date")
+          .data(reposBy, function(d) { return d.key; });
 
       date.enter().append("div")
           .attr("class", "date")
