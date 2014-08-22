@@ -70,7 +70,7 @@ h1, h2 {
 }
 
 .foreground.bar {
-  fill: steelblue;
+  fill: seagreen;
 }
 
 .axis path, .axis line {
@@ -84,7 +84,7 @@ h1, h2 {
 }
 
 .brush rect.extent {
-  fill: steelblue;
+  fill: seagreen;
   fill-opacity: .125;
 }
 
@@ -132,7 +132,8 @@ width:940px;
 
 #git-list .repo {
   line-height: 1.5em;
-  background: #eee;
+  /*background: #eee;*/
+  /*background: #336666;*/
   width: 940px;
   margin-bottom: 1px;
 }
@@ -197,7 +198,7 @@ aside {
 
 
 .bar {
-  fill: steelblue;
+  fill: seagreen;
 }
 
 /*.bar:hover {
@@ -302,19 +303,27 @@ a {
 }
 
 a:link {
-    color: black;
+    color: seagreen;
 }
 
 a:visited {
-    color: steelblue;
+    color: seagreen;
 }
 
 a:hover {
-    color: steelblue;
+    color: seagreen;
 }
 
 a:active {
-    color: steelblue;
+    color: seagreen;
+}
+
+a.listLink {
+  color: black;
+}
+
+a.listLink:hover {
+  color: seagreen;
 }
 
 </style>
@@ -328,6 +337,8 @@ a:active {
 <p>Gitsift is a visualization of GitHub public timeline data using D3 and Crossfilter. Most of the code is blatantly copied from Crossfilter's official <a href="https://github.com/square/crossfilter">example</a>. Everybody has to start somewhere. Definition of sift from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>: <i>"to go through (something) very carefully in order to find something useful or valuable"</i>. For more information on how to retrieve data from <a href="https://developers.google.com/bigquery/">Google BigQuery</a> read our <a href="https://github.com/matijapiskorec/gitsift">README</a>.</p>
 
 <p>This is an example of selecting only <a href="javascript:filter([null, null, null, null, null,[new Date(2012, 0, 1), new Date(2013, 0, 1)]])">year 2012</a>.</p>
+
+Are you interested at the turn of which year Javascript surprassed Ruby as the most popular language for new repositories, the checkout <a href="javascript:filter([null, null, null, null, null,[new Date(2009, 10, 15), new Date(2010, 1, 0)]])">this</a>. And that the majority of repositories back in the <a href="javascript:filter([null, null, null, null, null,[new Date(2008, 0, 1), new Date(2008, 11, 31)]])">2008</a> were created between 6 and 7 PM?
 
 <div id="charts">
   <div id="hour-chart" class="chart">
@@ -554,7 +565,7 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
     var r = fuse.search($inputSearch.val());
     $result.empty();
     $.each(r.slice(0,15), function() {
-    $result.append("<div><a href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
+    $result.append("<div><a class='listLink' href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
     });
   }
   
@@ -698,7 +709,7 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
 
       repoEnter.append("div")
           .attr("class", "giturl")
-          .html(function(d) { return "<a href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
+          .html(function(d) { return "<a class='listLink' href='https://github.com"+ d.repository_url + "'>" + d.repository_url + "</a>";});
 
       repoEnter.append("div")
           .attr("class", "number")
