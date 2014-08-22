@@ -271,31 +271,31 @@ aside {
 }
 
 .hrn:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .hdate:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .hpl:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .hw:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .hsize:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .hiss:hover{
-color:steelblue;
+color:seagreen;
 }
 
 .oneline:hover{
-color:steelblue;
+color:seagreen;
 }
 
 a {
@@ -319,11 +319,15 @@ a:active {
 }
 
 a.listLink {
-  color: black;
+  color: seagreen;
 }
 
 a.listLink:hover {
   color: seagreen;
+}
+
+.searchResultDiv {
+  height: 24px;
 }
 
 </style>
@@ -336,9 +340,10 @@ a.listLink:hover {
 
 <p>Gitsift is a visualization of GitHub public timeline data using D3 and Crossfilter. Most of the code is blatantly copied from Crossfilter's official <a href="https://github.com/square/crossfilter">example</a>. Everybody has to start somewhere. Definition of sift from <a href="http://www.merriam-webster.com/dictionary/sift">Merriam-Webster</a>: <i>"to go through (something) very carefully in order to find something useful or valuable"</i>. For more information on how to retrieve data from <a href="https://developers.google.com/bigquery/">Google BigQuery</a> read our <a href="https://github.com/matijapiskorec/gitsift">README</a>.</p>
 
-<p>This is an example of selecting only <a href="javascript:filter([null, null, null, null, null,[new Date(2012, 0, 1), new Date(2013, 0, 1)]])">year 2012</a>.</p>
+<!-- <p>This is an example of selecting only <a href="javascript:filter([null, null, null, null, null,[new Date(2012, 0, 1), new Date(2013, 0, 1)]])">year 2012</a>.</p> -->
 
-Are you interested at the turn of which year Javascript surprassed Ruby as the most popular language for new repositories, the checkout <a href="javascript:filter([null, null, null, null, null,[new Date(2009, 10, 15), new Date(2010, 1, 0)]])">this</a>. And that the majority of repositories back in the <a href="javascript:filter([null, null, null, null, null,[new Date(2008, 0, 1), new Date(2008, 11, 31)]])">2008</a> were created between 6 and 7 PM?
+<p> For example, you can try to find a <a href="javascript:filter([null, null, null, null, null,[new Date(2009, 10, 15), new Date(2010, 1, 0)]])">time period</a> when Javascript surprassed Ruby as the most popular language for new repositories. Or you can wonder why did the majority of repositories back in the <a href="javascript:filter([null, null, null, null, null,[new Date(2008, 0, 1), new Date(2008, 11, 31)]])">2008</a> were created between 6 and 7 PM? </p>
+
 
 <div id="charts">
   <div id="hour-chart" class="chart">
@@ -564,8 +569,8 @@ d3.csv("repositories_data_44k.json", function(error, repos) {
     $result = $('#searchResults');
     var r = fuse.search($inputSearch.val());
     $result.empty();
-    $.each(r.slice(0,15), function() {
-    $result.append("<div><a class='listLink' href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
+    $.each(r.slice(0,12), function() {
+    $result.append("<div class='searchResultDiv'><a class='listLink' href='https://github.com"+ this.repository_url + "'>" + this.repository_url + "</a></div>");
     });
   }
   
